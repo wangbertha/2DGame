@@ -21,5 +21,8 @@ public class Main {
         // Set more window configurations
         window.setLocationRelativeTo(null); // Centers window on screen
         window.setVisible(true); // Makes window visible
+
+        // Start the game
+        gamePanel.startGameThread();
     }
 }
