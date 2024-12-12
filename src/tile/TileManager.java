@@ -20,7 +20,9 @@ public class TileManager {
     public void getTileImage() {
         try {
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/background.png"));
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/grass.png"));
+            tile[1] = new Tile();
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/floor.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
