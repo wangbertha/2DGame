@@ -2,6 +2,7 @@ package entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 import main.GamePanel;
 import main.KeyHandler;
@@ -21,6 +22,8 @@ public class Player extends Entity {
         screenX = gp.screenWidth / 2 - gp.tileSize / 2;
         screenY = gp.screenHeight / 2 - gp.tileSize / 2;
 
+        solidArea = new Rectangle(8, 8, 32, 32);
+
         setDefaultValues();
     }
 
@@ -31,14 +34,31 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if (keyH.upPressed == true) {
-            worldY -= speed;
-        } else if (keyH.downPressed == true) {
-            worldY += speed;
-        } else if (keyH.leftPressed == true) {
-            worldX -= speed;
-        } else if (keyH.rightPressed == true) {
-            worldX += speed;
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+            if (keyH.upPressed) {
+                direction = "up";
+            } else if (keyH.downPressed) {
+                direction = "down";
+            } else if (keyH.leftPressed) {
+                direction = "left";
+            } else if (keyH.rightPressed) {
+                direction = "right";
+            }
+
+            collisionOn = false;
+            gp.collisionCh.checkTile(this);
+
+            if (collisionOn == false) {
+                if (direction == "up") {
+                    worldY -= speed;
+                } else if (direction == "down") {
+                    worldY += speed;
+                } else if (direction == "left") {
+                    worldX -= speed;
+                } else if (direction == "right") {
+                    worldX += speed;
+                }
+            }
         }
     }
 
