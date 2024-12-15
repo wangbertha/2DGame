@@ -40,6 +40,7 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
         try {
+            stationary = ImageIO.read(getClass().getResourceAsStream("/res/player/front.png"));
             up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/up-1.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/up-2.png"));
             down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/down-1.png"));
@@ -54,6 +55,9 @@ public class Player extends Entity {
     }
 
     public void update() {
+        if (!keyH.upPressed && !keyH.downPressed && !keyH.leftPressed && !keyH.rightPressed) {
+            direction = "stationary";
+        }
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) {
                 direction = "up";
@@ -79,23 +83,25 @@ public class Player extends Entity {
                     worldX += speed;
                 }
             }
-        }
 
-        animCounter++;
-        if (animCounter > 12) {
-            if (imageNum == 1) {
-                imageNum = 2;
-            } else if (imageNum == 2) {
-                imageNum = 1;
+            animCounter++;
+            if (animCounter > 12) {
+                if (imageNum == 1) {
+                    imageNum = 2;
+                } else if (imageNum == 2) {
+                    imageNum = 1;
+                }
+                animCounter = 0;
             }
-            animCounter = 0;
         }
     }
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
 
-        if (direction == "up") {
+        if (direction == "stationary") {
+            image = stationary;
+        } else if (direction == "up") {
             if (imageNum == 1) {
                 image = up1;
             } else if (imageNum == 2) {
