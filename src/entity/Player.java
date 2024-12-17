@@ -26,6 +26,8 @@ public class Player extends Entity {
         screenY = gp.screenHeight / 2 - gp.tileSize / 2;
 
         solidArea = new Rectangle(10, 16, 28, 28);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
 
         setDefaultValues();
         getPlayerImage();
@@ -72,6 +74,9 @@ public class Player extends Entity {
             collisionOn = false;
             gp.collisionCh.checkTile(this);
 
+            int objIndex = gp.collisionCh.checkObject(this);
+            pushObject(objIndex);
+
             if (collisionOn == false) {
                 if (direction == "up") {
                     worldY -= speed;
@@ -93,6 +98,12 @@ public class Player extends Entity {
                 }
                 animCounter = 0;
             }
+        }
+    }
+
+    public void pushObject(int i) {
+        if (i != -1) {
+            // Push item
         }
     }
 

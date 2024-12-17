@@ -55,4 +55,44 @@ public class CollisionChecker {
             entity.collisionOn = true;
         }
     }
+
+    public int checkObject(Entity entity) {
+        int index = -1;
+
+        for (int i = 0; i < gp.obj.length; i++) {
+            if (gp.obj[i] != null) {
+                // Get entity's solid area position
+                entity.solidArea.x = entity.worldX + entity.solidArea.x;
+                entity.solidArea.y = entity.worldY + entity.solidArea.y;
+
+                // Get object's solid area position
+                gp.obj[i].solidArea.x = gp.obj[i].worldX + gp.obj[i].solidArea.x;
+                gp.obj[i].solidArea.y = gp.obj[i].worldY + gp.obj[i].solidArea.y;
+
+                if (entity.direction == "up") {
+                    entity.solidArea.y -= entity.speed;
+                } else if (entity.direction == "down") {
+                    entity.solidArea.y += entity.speed;
+                } else if (entity.direction == "left") {
+                    entity.solidArea.x -= entity.speed;
+                } else if (entity.direction == "right") {
+                    entity.solidArea.x += entity.speed;
+                }
+                if (entity.solidArea.intersects(gp.obj[i].solidArea)) {
+                    if (gp.obj[i].collision) {
+                        entity.collisionOn = true;
+                    }
+                    index = i;
+                }
+
+                // Reset entity solidArea values
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                gp.obj[i].solidArea.x = gp.obj[i].solidAreaDefaultX;
+                gp.obj[i].solidArea.y = gp.obj[i].solidAreaDefaultY;
+            }
+        }
+
+        return index;
+    }
 }
