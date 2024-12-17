@@ -18,30 +18,40 @@ public class Player extends Entity {
     public final int screenY;
 
     public Player(GamePanel gp, KeyHandler keyH) {
+        // Applies Player to GamePanel and keyboard interactivity
         this.gp = gp;
         this.keyH = keyH;
 
-        // Player position relative to screen (px)
-        screenX = gp.screenWidth / 2 - gp.tileSize / 2;
-        screenY = gp.screenHeight / 2 - gp.tileSize / 2;
+        // Location (relative to screen) (px)
+        screenX = gp.screenWidth / 2 - gp.tileSize / 2; // Screen center
+        screenY = gp.screenHeight / 2 - gp.tileSize / 2; // Screen center
 
+        // Solid Body
         solidArea = new Rectangle(10, 16, 28, 28);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
+        // Initialize location relative to world map, speed, and direction
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
+        // Location: (12, 16) tiles
         worldX = gp.tileSize * 12;
         worldY = gp.tileSize * 16;
+
+        // Pixels per update interval
         speed = 4;
-        direction = "down";
+
+        // Direction
+        direction = "stationary";
     }
 
     public void getPlayerImage() {
         try {
+            // Load player images
+            // 2 images are used for each direction to create animation
             stationary = ImageIO.read(getClass().getResourceAsStream("/res/player/front.png"));
             up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/up-1.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/up-2.png"));
@@ -57,9 +67,12 @@ public class Player extends Entity {
     }
 
     public void update() {
+        // Set direction to stationary when no key is pressed
         if (!keyH.upPressed && !keyH.downPressed && !keyH.leftPressed && !keyH.rightPressed) {
             direction = "stationary";
         }
+
+        // Set direction according to key pressed
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) {
                 direction = "up";
@@ -71,12 +84,14 @@ public class Player extends Entity {
                 direction = "right";
             }
 
+            // Re-check player colliding conditions
             collisionOn = false;
             gp.collisionCh.checkTile(this);
 
             int objIndex = gp.collisionCh.checkObject(this);
             pushObject(objIndex);
 
+            // Only update location if player is not colliding
             if (collisionOn == false) {
                 if (direction == "up") {
                     worldY -= speed;
@@ -89,6 +104,7 @@ public class Player extends Entity {
                 }
             }
 
+            // Alternate images to animate player
             animCounter++;
             if (animCounter > 12) {
                 if (imageNum == 1) {

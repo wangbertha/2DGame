@@ -16,9 +16,11 @@ public class SuperObject {
     public int solidAreaDefaultY = 0;
 
     public void draw(Graphics2D g2, GamePanel gp) {
+        // Calculate location relative to screen
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
+        // Draw object if within screen boundaries
         if (worldX > gp.player.worldX - gp.player.screenX - gp.tileSize
                 && worldX < gp.player.worldX + gp.player.screenX + gp.tileSize
                 && worldY > gp.player.worldY - gp.player.screenY - gp.tileSize

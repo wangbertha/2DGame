@@ -21,14 +21,16 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
-    // World including beyond screen
+    // World Specifications
     public final int maxWorldCol = 32;
     public final int maxWorldRow = 24;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
 
-    int FPS = 60; // Frames per second
+    // Frames per second
+    int FPS = 60;
 
+    // Game assets: tiles, key handler, thread, interactivity, player, objects
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
@@ -38,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable {
     public SuperObject obj[] = new SuperObject[10];
 
     public GamePanel() {
+        // Game Panel Setup
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
@@ -45,11 +48,12 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
+    // Add objects
     public void setupGame() {
         assetS.setObject();
     }
 
-    // Starts the game
+    // Start the game
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -57,17 +61,19 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1000000000 / FPS;
+        double drawInterval = 1000000000 / FPS; // Time interval for FPS frequency
         double delta = 0;
-        long lastTime = System.nanoTime();
+        long lastTime = System.nanoTime(); // Timestamp in nanoseconds
         long currentTime;
 
         while (gameThread != null) {
+            // Calculates the amount of time passed since last update/paint cycle
             currentTime = System.nanoTime();
-
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
 
+            // If the amount of time passed is greater than the draw interval,
+            // Then update and repaint
             if (delta >= 1) {
                 update();
                 repaint();
