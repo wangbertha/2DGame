@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-
         // Create window and specify desired configurations
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Allows user to properly close window

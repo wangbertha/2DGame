@@ -11,6 +11,7 @@ public class ObjBox extends SuperObject {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         name = "Box";
         collision = true;
     }

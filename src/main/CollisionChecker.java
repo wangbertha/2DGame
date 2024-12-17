@@ -47,7 +47,6 @@ public class CollisionChecker {
             // Identify the 2 possible tiles that the entity newly encounters
             tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
             tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
-
         }
 
         // Check if the encountered tiles are collision tiles
