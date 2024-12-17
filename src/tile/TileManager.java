@@ -17,8 +17,14 @@ public class TileManager {
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
+
+        // Types of tiles
         tile = new Tile[10];
+
+        // 2D array representation of world map via. tile types
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+
+        // Load information into tile and mapTileNum
         getTileImage();
         loadMap("/res/maps/world01.txt");
     }
@@ -51,9 +57,9 @@ public class TileManager {
             InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
+            // Iterate through 2D world map in text form and store in mapTileNum
             int col = 0;
             int row = 0;
-
             while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
                 String line = br.readLine();
 
@@ -79,21 +85,23 @@ public class TileManager {
         int worldCol = 0;
         int worldRow = 0;
 
+        // Iterate through each tile in world map
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
             int tileNum = mapTileNum[worldCol][worldRow];
 
+            // Location of tile relative to world and screen
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
             int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
+            // Draw if tile is within screen boundaries
             if (worldX > gp.player.worldX - gp.player.screenX - gp.tileSize
                     && worldX < gp.player.worldX + gp.player.screenX + gp.tileSize
                     && worldY > gp.player.worldY - gp.player.screenY - gp.tileSize
                     && worldY < gp.player.worldY + gp.player.screenY + gp.tileSize) {
                 g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             }
-
             worldCol++;
 
             if (worldCol == gp.maxWorldCol) {

@@ -10,48 +10,44 @@ public class CollisionChecker {
     }
 
     public void checkTile(Entity entity) {
+        // Calculate boundaries for entity solid area relative to world map (px)
         int entityLeftWorldX = entity.worldX + entity.solidArea.x;
         int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
         int entityTopWorldY = entity.worldY + entity.solidArea.y;
         int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
 
+        // Calculate boundaries for entity solid area relative to world map (tiles)
         int entityLeftCol = entityLeftWorldX / gp.tileSize;
         int entityRightCol = entityRightWorldX / gp.tileSize;
         int entityTopRow = entityTopWorldY / gp.tileSize;
         int entityBottomRow = entityBottomWorldY / gp.tileSize;
 
-        int tileNum1 = -1;
-        int tileNum2 = -1;
+        // Initialize tile type variable
+        int tileNum1Type = -1;
+        int tileNum2Type = -1;
 
         // Identify the type of the 2 possible tiles that the entity newly encounters
+        // - Shift entity solid area boundary towards direction
         if (entity.direction == "up") {
             entityTopRow = (entityTopWorldY - entity.speed) / gp.tileSize;
-
-            tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
-            tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+            tileNum1Type = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+            tileNum2Type = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
         } else if (entity.direction == "down") {
             entityBottomRow = (entityBottomWorldY + entity.speed) / gp.tileSize;
-
-            // Identify the 2 possible tiles that the entity newly encounters
-            tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
-            tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+            tileNum1Type = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+            tileNum2Type = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
         } else if (entity.direction == "left") {
             entityLeftCol = (entityLeftWorldX - entity.speed) / gp.tileSize;
-
-            // Identify the 2 possible tiles that the entity newly encounters
-            tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
-            tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+            tileNum1Type = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+            tileNum2Type = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
         } else if (entity.direction == "right") {
             entityRightCol = (entityRightWorldX + entity.speed) / gp.tileSize;
-
-            // Identify the 2 possible tiles that the entity newly encounters
-            tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
-            tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
-
+            tileNum1Type = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+            tileNum2Type = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
         }
 
         // Check if the encountered tiles are collision tiles
-        if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
+        if (gp.tileM.tile[tileNum1Type].collision || gp.tileM.tile[tileNum2Type].collision) {
             entity.collisionOn = true;
         }
     }
@@ -69,6 +65,7 @@ public class CollisionChecker {
                 gp.obj[i].solidArea.x = gp.obj[i].worldX + gp.obj[i].solidArea.x;
                 gp.obj[i].solidArea.y = gp.obj[i].worldY + gp.obj[i].solidArea.y;
 
+                // Shift entity solid area boundary towards direction
                 if (entity.direction == "up") {
                     entity.solidArea.y -= entity.speed;
                 } else if (entity.direction == "down") {
@@ -78,6 +75,9 @@ public class CollisionChecker {
                 } else if (entity.direction == "right") {
                     entity.solidArea.x += entity.speed;
                 }
+
+                // Check if entity solid area and object solid area intersects
+                // If intersects, store value
                 if (entity.solidArea.intersects(gp.obj[i].solidArea)) {
                     if (gp.obj[i].collision) {
                         entity.collisionOn = true;
