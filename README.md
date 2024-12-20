@@ -2,6 +2,8 @@
 
 Create a 2D game where the goal is to push a box into a hole.
 
+Project is in-progress.
+
 ## Demo
 
 ![2D Game Demo](./2D%20Game%20Demo.gif)
