@@ -141,4 +141,29 @@ public class CollisionChecker {
 
         return false;
     }
+
+    public boolean checkWin(int objIndex) {
+        if (objIndex >= 0 && objIndex < gp.obj.length) {
+            SuperObject obj = gp.obj[objIndex];
+
+            // Calculate boundaries for obj solid area relative to world map (px)
+            int objLeftWorldX = obj.worldX + obj.solidArea.x;
+            int objRightWorldX = obj.worldX + obj.solidArea.x + obj.solidArea.width;
+            int objTopWorldY = obj.worldY + obj.solidArea.y;
+            int objBottomWorldY = obj.worldY + obj.solidArea.y + obj.solidArea.height;
+
+            // Calculate boundaries for obj solid area relative to world map (tiles)
+            int objLeftCol = objLeftWorldX / gp.tileSize;
+            int objRightCol = objRightWorldX / gp.tileSize;
+            int objTopRow = objTopWorldY / gp.tileSize;
+            int objBottomRow = objBottomWorldY / gp.tileSize;
+
+            // Check if obj is entirely contained in one tile, and tile is a goal type
+            if (objLeftCol == objRightCol && objTopRow == objBottomRow
+                    && gp.tileM.tile[gp.tileM.mapTileNum[objLeftCol][objTopRow]].goal) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

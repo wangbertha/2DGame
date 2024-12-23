@@ -47,6 +47,7 @@ public class TileManager {
             // Set hole tile
             tile[3] = new Tile();
             tile[3].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/hole.png"));
+            tile[3].goal = true;
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -90,6 +90,9 @@ public class Player extends Entity {
 
             int objIndex = gp.collisionCh.checkObject(this);
             pushObject(objIndex);
+            if (gp.collisionCh.checkWin(objIndex)) {
+                System.out.println("You win!");
+            }
 
             // Only update location if player is not colliding
             if (collisionOn == false) {
