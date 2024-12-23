@@ -17,4 +17,16 @@ public class ObjBox extends SuperObject {
         collision = true;
         solidArea = new Rectangle(4, 4, 40, 40);
     }
+
+    public void update(String direction, int speed) {
+        if (direction == "up") {
+            worldY -= speed;
+        } else if (direction == "down") {
+            worldY += speed;
+        } else if (direction == "left") {
+            worldX -= speed;
+        } else if (direction == "right") {
+            worldX += speed;
+        }
+    }
 }

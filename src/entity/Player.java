@@ -84,17 +84,19 @@ public class Player extends Entity {
                 direction = "right";
             }
 
-            // Re-check player colliding conditions
+            // Check player colliding conditions with tiles
             collisionOn = false;
             gp.collisionCh.checkTile(this);
 
+            // Check player colliding conditions with objects, and update objects if
+            // applicable
             int objIndex = gp.collisionCh.checkObject(this);
             pushObject(objIndex);
             if (gp.collisionCh.checkWin(objIndex)) {
                 System.out.println("You win!");
             }
 
-            // Only update location if player is not colliding
+            // Only update player location if player is not colliding
             if (collisionOn == false) {
                 if (direction == "up") {
                     worldY -= speed;
@@ -124,15 +126,7 @@ public class Player extends Entity {
         if (i != -1) {
             // If object does not collide, move the object
             if (!gp.collisionCh.checkObjectTile(direction, speed, gp.obj[i])) {
-                if (direction == "up") {
-                    gp.obj[i].worldY -= speed;
-                } else if (direction == "down") {
-                    gp.obj[i].worldY += speed;
-                } else if (direction == "left") {
-                    gp.obj[i].worldX -= speed;
-                } else if (direction == "right") {
-                    gp.obj[i].worldX += speed;
-                }
+                gp.obj[i].update(direction, speed);
             }
         }
     }

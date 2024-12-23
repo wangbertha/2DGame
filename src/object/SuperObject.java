@@ -15,6 +15,18 @@ public class SuperObject {
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
 
+    public void update(String direction, int speed) {
+        if (direction == "up") {
+            worldY -= speed;
+        } else if (direction == "down") {
+            worldY += speed;
+        } else if (direction == "left") {
+            worldX -= speed;
+        } else if (direction == "right") {
+            worldX += speed;
+        }
+    }
+
     public void draw(Graphics2D g2, GamePanel gp) {
         // Calculate location relative to screen
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
