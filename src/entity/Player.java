@@ -120,6 +120,15 @@ public class Player extends Entity {
     public void pushObject(int i) {
         if (i != -1) {
             // Push item
+            if (direction == "up") {
+                gp.obj[i].worldY -= speed;
+            } else if (direction == "down") {
+                gp.obj[i].worldY += speed;
+            } else if (direction == "left") {
+                gp.obj[i].worldX -= speed;
+            } else if (direction == "right") {
+                gp.obj[i].worldX += speed;
+            }
         }
     }
 
