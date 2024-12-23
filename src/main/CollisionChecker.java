@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import object.SuperObject;
 
 public class CollisionChecker {
     GamePanel gp;
@@ -94,5 +95,50 @@ public class CollisionChecker {
         }
 
         return index;
+    }
+
+    public boolean checkObjectTile(String direction, int speed, SuperObject obj) {
+        // Calculate boundaries for obj solid area relative to world map (px)
+        int objLeftWorldX = obj.worldX + obj.solidArea.x;
+        int objRightWorldX = obj.worldX + obj.solidArea.x + obj.solidArea.width;
+        int objTopWorldY = obj.worldY + obj.solidArea.y;
+        int objBottomWorldY = obj.worldY + obj.solidArea.y + obj.solidArea.height;
+
+        // Calculate boundaries for obj solid area relative to world map (tiles)
+        int objLeftCol = objLeftWorldX / gp.tileSize;
+        int objRightCol = objRightWorldX / gp.tileSize;
+        int objTopRow = objTopWorldY / gp.tileSize;
+        int objBottomRow = objBottomWorldY / gp.tileSize;
+
+        // Initialize tile type variable
+        int tileNum1Type = -1;
+        int tileNum2Type = -1;
+
+        // Identify the type of the 2 possible tiles that the obj newly encounters
+        // - Shift obj solid area boundary towards direction
+        if (direction == "up") {
+            objTopRow = (objTopWorldY - speed) / gp.tileSize;
+            tileNum1Type = gp.tileM.mapTileNum[objLeftCol][objTopRow];
+            tileNum2Type = gp.tileM.mapTileNum[objRightCol][objTopRow];
+        } else if (direction == "down") {
+            objBottomRow = (objBottomWorldY + speed) / gp.tileSize;
+            tileNum1Type = gp.tileM.mapTileNum[objLeftCol][objBottomRow];
+            tileNum2Type = gp.tileM.mapTileNum[objRightCol][objBottomRow];
+        } else if (direction == "left") {
+            objLeftCol = (objLeftWorldX - speed) / gp.tileSize;
+            tileNum1Type = gp.tileM.mapTileNum[objLeftCol][objTopRow];
+            tileNum2Type = gp.tileM.mapTileNum[objLeftCol][objBottomRow];
+        } else if (direction == "right") {
+            objRightCol = (objRightWorldX + speed) / gp.tileSize;
+            tileNum1Type = gp.tileM.mapTileNum[objRightCol][objTopRow];
+            tileNum2Type = gp.tileM.mapTileNum[objRightCol][objBottomRow];
+        }
+
+        // Check if the encountered tiles are collision tiles
+        if (gp.tileM.tile[tileNum1Type].collision || gp.tileM.tile[tileNum2Type].collision) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 package object;
 
+import java.awt.Rectangle;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -14,5 +15,6 @@ public class ObjBox extends SuperObject {
 
         name = "Box";
         collision = true;
+        solidArea = new Rectangle(4, 4, 40, 40);
     }
 }
