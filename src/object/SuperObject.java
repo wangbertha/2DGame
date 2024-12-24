@@ -15,7 +15,7 @@ public class SuperObject {
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
 
-    public void update(String direction, int speed) {
+    public void update(GamePanel gp, String direction, int speed) {
         if (direction == "up") {
             worldY -= speed;
         } else if (direction == "down") {
@@ -24,6 +24,9 @@ public class SuperObject {
             worldX -= speed;
         } else if (direction == "right") {
             worldX += speed;
+        }
+        if (gp.collisionCh.checkWin(this)) {
+            System.out.println("You win!");
         }
     }
 
