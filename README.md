@@ -16,6 +16,7 @@ Project is in-progress.
 2. Run game from `Main` file:
     - Option 1: Run `src/main/Main.java` from IDE user interface prompts. Ex. Visual Studio Code:
         ![Instructions to run the game](./Getting%20Started.png)
+      For Visual Studio Code, install the [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack) to access these prompts.
     - Option 2: Run from `bin/main/Main` using terminal:\
         `cd bin`\
         `java main.Main`
