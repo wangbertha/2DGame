@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JOptionPane;
+
 import main.GamePanel;
 
 public class SuperObject {
@@ -26,7 +28,7 @@ public class SuperObject {
             worldX += speed;
         }
         if (gp.collisionCh.checkWin(this)) {
-            System.out.println("You win!");
+            JOptionPane.showMessageDialog(gp, "You win!", "Congratulations", 3);
         }
     }
 
