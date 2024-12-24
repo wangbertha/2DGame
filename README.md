@@ -6,7 +6,7 @@ Project is in-progress.
 
 ## Demo
 
-![2D Game Demo](./2D%20Game%20Demo.gif)
+![2D Game Demo](./2DGameDemo.gif)
 
 ## Getting Started
 
